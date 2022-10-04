@@ -26,13 +26,13 @@ data "aws_lb_target_group" "target_group" {
 }
 
 resource "aws_instance" "app_server" {
-  count    = var.ec2_app_server_count
+  count = var.ec2_app_server_count
 
   ami           = data.aws_ami_ids.selected.ids[0]
   instance_type = var.ec2_instance_type
   key_name      = var.ec2_key_name
 
-  subnet_id                   = "${element(data.aws_subnets.target_subnets.ids, count.index)}"
+  subnet_id                   = element(data.aws_subnets.target_subnets.ids, count.index)
   associate_public_ip_address = true
   vpc_security_group_ids = [
     aws_security_group.app_server.id
@@ -47,7 +47,7 @@ resource "aws_lb_target_group_attachment" "app_server" {
   count = var.ec2_app_server_count
 
   target_group_arn = data.aws_lb_target_group.target_group.arn
-  target_id        = "${aws_instance.app_server[count.index].id}"
+  target_id        = aws_instance.app_server[count.index].id
   port             = var.ec2_app_server_port
 }
 
@@ -65,11 +65,11 @@ resource "aws_security_group" "app_server" {
     ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
-    description      = "HTTP-${var.ec2_app_server_port} from VPC"
-    from_port        = var.ec2_app_server_port
-    to_port          = var.ec2_app_server_port
-    protocol         = "tcp"
-    cidr_blocks      = [data.aws_vpc.target_vpc.cidr_block]
+    description = "HTTP-${var.ec2_app_server_port} from VPC"
+    from_port   = var.ec2_app_server_port
+    to_port     = var.ec2_app_server_port
+    protocol    = "tcp"
+    cidr_blocks = [data.aws_vpc.target_vpc.cidr_block]
     #ipv6_cidr_blocks = [data.aws_vpc.target_vpc.ipv6_cidr_block]
   }
 

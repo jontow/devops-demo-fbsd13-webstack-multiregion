@@ -1,4 +1,4 @@
-variable vpc {
+variable "vpc" {
   type = object({
     vpc_name   = string
     cidr_block = string
@@ -6,17 +6,17 @@ variable vpc {
   })
 }
 
-variable lb {
+variable "lb" {
   type = object({
-    lb_name = string
-    lb_type = string
-    tg_name = string
-    tg_port = number
+    lb_name     = string
+    lb_type     = string
+    tg_name     = string
+    tg_port     = number
     tg_protocol = string
   })
 }
 
-variable ec2 {
+variable "ec2" {
   type = object({
     name_prefix      = string
     name_suffix      = string

@@ -7,7 +7,7 @@ variable "vpc_cidr_block" {
 }
 
 variable "vpc_azs" {
-  type = map
+  type = map(any)
 }
 
 variable "lb_name" {
