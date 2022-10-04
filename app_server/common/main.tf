@@ -48,7 +48,7 @@ resource "aws_lb_target_group_attachment" "app_server" {
 
   target_group_arn = data.aws_lb_target_group.target_group.arn
   target_id        = "${aws_instance.app_server[count.index].id}"
-  port             = 8080
+  port             = var.ec2_app_server_port
 }
 
 resource "aws_security_group" "app_server" {
@@ -65,9 +65,9 @@ resource "aws_security_group" "app_server" {
     ipv6_cidr_blocks = ["::/0"]
   }
   ingress {
-    description      = "HTTP-8080 from VPC"
-    from_port        = 8080
-    to_port          = 8080
+    description      = "HTTP-${var.ec2_app_server_port} from VPC"
+    from_port        = var.ec2_app_server_port
+    to_port          = var.ec2_app_server_port
     protocol         = "tcp"
     cidr_blocks      = [data.aws_vpc.target_vpc.cidr_block]
     #ipv6_cidr_blocks = [data.aws_vpc.target_vpc.ipv6_cidr_block]

@@ -18,6 +18,10 @@ variable "ec2_app_server_count" {
   type = number
 }
 
+variable "ec2_app_server_port" {
+  type = number
+}
+
 variable "ec2_instance_type" {
   type = string
 }

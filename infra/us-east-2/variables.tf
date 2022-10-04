@@ -6,9 +6,14 @@ variable vpc {
   })
 }
 
-variable alb {
+variable lb {
   type = object({
-    alb_name = string
-    tg_name  = string
+    lb_name = string
+    lb_type = string
+    lb_listener_port = number
+    lb_listener_protocol = string
+    tg_name = string
+    tg_port = number
+    tg_protocol = string
   })
 }

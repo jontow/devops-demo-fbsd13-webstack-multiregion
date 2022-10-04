@@ -11,9 +11,14 @@ vpc = {
   vpc_name = "fbsd13-webstack-vpc"
 }
 
-alb = {
-  alb_name = "fbsd13-webstack-lb"
-  tg_name  = "fbsd13-webstack-http"
+lb = {
+  lb_name              = "fbsd13-webstack-lb"
+  lb_type              = "network"
+  lb_listener_port     = 80
+  lb_listener_protocol = "TCP"
+  tg_name              = "fbsd13-webstack-http"
+  tg_port              = 80
+  tg_protocol          = "TCP"
 }
 
 ec2 = {
@@ -24,5 +29,6 @@ ec2 = {
   ami_owner        = "679593333241"
   ami_name         = "FreeBSD 13.1-RELEASE-amd64 UEFI-ac170f9b-f71a-458c-ac8e-1bf96b74e270"
   app_server_count = 2
+  app_server_port  = 8080
   sg_name          = "fbsd13-webstack-sg"
 }

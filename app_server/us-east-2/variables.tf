@@ -6,10 +6,13 @@ variable vpc {
   })
 }
 
-variable alb {
+variable lb {
   type = object({
-    alb_name = string
-    tg_name  = string
+    lb_name = string
+    lb_type = string
+    tg_name = string
+    tg_port = number
+    tg_protocol = string
   })
 }
 
@@ -22,6 +25,7 @@ variable ec2 {
     ami_owner        = string
     ami_name         = string
     app_server_count = number
+    app_server_port  = number
     sg_name          = string
   })
 }
