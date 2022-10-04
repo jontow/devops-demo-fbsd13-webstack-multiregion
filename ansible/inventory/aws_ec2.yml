@@ -1,0 +1,33 @@
+plugin: aws_ec2
+### Best to only enable the regions in use to save time/other resources:
+regions:
+  - "us-east-1"
+  - "us-east-2"
+#  - "us-west-1"
+#  - "us-west-2"
+#  - "eu-central-1"
+#  - "eu-west-1"
+#  - "ap-southeast-1"
+#  - "ap-northeast-2"
+#  - "ap-southeast-2"
+#  - "sa-east-1"
+
+### filters: all criteria must match?
+filters:
+  instance-state-name: 'running'
+#  tag:sometag: 'somevalue'
+
+keyed_groups:
+  - prefix: arch
+    key: 'architecture'
+  - prefix: tag
+    key: tags
+  - key: placement.region
+    prefix: aws_region
+
+hostnames:
+  - tag:hostname
+  - tag:Name
+  - dns-name
+compose:
+  ansible_host: public_dns_name

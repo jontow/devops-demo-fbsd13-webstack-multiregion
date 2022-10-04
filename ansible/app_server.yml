@@ -1,0 +1,11 @@
+---
+###
+### ansible-playbook app_server.yml -i inventory -v
+###
+- hosts: all
+  become: true
+  # FreeBSD image doesn't come with sudo preinstalled
+  become_method: su
+  tasks:
+    - name: "Test: run uptime command"
+      ansible.builtin.command: "uptime"
