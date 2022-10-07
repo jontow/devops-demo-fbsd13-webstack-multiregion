@@ -12,6 +12,9 @@
 #   Run only terragrunt on us-east-1 (don't run ansible):
 #     SKIP_ANSIBLE=true REGION=us-east-1 awscred jaws1 ./run.sh
 #
+#   Mercilessly destroy everything:
+#     SKIP_ANSIBLE=true TF_OP=destroy ./run.sh
+#
 ################################################################################
 
 REGION="${REGION:-us-east-1 us-east-2}"
@@ -23,7 +26,7 @@ if [ -z "${SKIP_TERRAFORM}" ]; then
         for region in ${REGION}; do
             if [ -d "${env}/${region}" ]; then
                 echo "[1;31mRUN: terragrunt run-all apply in ${env}/${region}[0;0m"
-                ( cd "${env}/${region}" && terragrunt run-all apply --terragrunt-non-interactive )
+                ( cd "${env}/${region}" && terragrunt run-all ${TF_OP:-apply} --terragrunt-non-interactive )
             fi
         done
     done

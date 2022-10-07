@@ -3,7 +3,7 @@ include "root" {
 }
 
 terraform {
-  source = "${get_terragrunt_dir()}/../../../../modules/app_server/common"
+  source = "${get_terragrunt_dir()}/../../../../modules/app_server"
 }
 
 dependencies {
