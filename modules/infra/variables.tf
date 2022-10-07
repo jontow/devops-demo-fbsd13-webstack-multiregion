@@ -1,5 +1,6 @@
 variable "vpc_name" {
-  type = string
+  type    = string
+  default = "fbsd13-webstack-vpc"
 }
 
 variable "vpc_cidr_block" {
@@ -11,7 +12,8 @@ variable "vpc_azs" {
 }
 
 variable "lb_name" {
-  type = string
+  type    = string
+  default = "fbsd13-webstack-lb"
 }
 
 variable "lb_type" {
@@ -30,13 +32,16 @@ variable "lb_listener_protocol" {
 }
 
 variable "lb_tg_name" {
-  type = string
+  type    = string
+  default = "fbsd13-webstack-http80"
 }
 
 variable "lb_tg_port" {
-  type = number
+  type    = number
+  default = 80
 }
 
 variable "lb_tg_protocol" {
-  type = string
+  type    = string
+  default = "HTTP"
 }

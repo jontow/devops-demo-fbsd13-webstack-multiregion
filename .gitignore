@@ -1,3 +1,7 @@
 .terraform
 .*.swp
 .vault-pass
+.terragrunt-cache
+
+# Contains an account-id, not explicitly secret, but good opsec says no:
+account.hcl

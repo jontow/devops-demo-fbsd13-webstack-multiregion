@@ -1,7 +1,7 @@
 #!/bin/sh
 ################################################################################
 #
-# Run all modules in all regions (overridable), in order: first with terraform,
+# Run all modules in all regions (overridable), in order: first with terragrunt,
 # then ansible.
 #
 # Example usages:
@@ -9,28 +9,31 @@
 #   Run everything, in order:
 #     ./run.sh
 #
-#   Run only terraform on us-east-1 (don't run ansible):
+#   Run only terragrunt on us-east-1 (don't run ansible):
 #     SKIP_ANSIBLE=true REGION=us-east-1 awscred jaws1 ./run.sh
 #
 ################################################################################
 
 REGION="${REGION:-us-east-1 us-east-2}"
-MODULES="${MODULES:-infra app_server}"
+ENVS="${ENVS:-nonprod/dev nonprod/test}"
+PLAYBOOKS="${PLAYBOOKS:-main.yml}"
 
 if [ -z "${SKIP_TERRAFORM}" ]; then
-    for region in ${REGION}; do
-        for module in ${MODULES}; do
-            echo "[1;31mRUN: terraform ${module} in ${region}[0;0m"
-            ( cd "${module}/${region}" && terraform apply -var-file=../../tfvars/${region}.tfvars -compact-warnings )
+    for env in ${ENVS}; do
+        for region in ${REGION}; do
+            if [ -d "${env}/${region}" ]; then
+                echo "[1;31mRUN: terragrunt run-all apply in ${env}/${region}[0;0m"
+                ( cd "${env}/${region}" && terragrunt run-all apply --terragrunt-non-interactive )
+            fi
         done
     done
 fi
 
 if [ -z "${SKIP_ANSIBLE}" ]; then
-    for module in ${MODULES}; do
-        if [ -f ansible/${module}.yml ]; then
-            echo "[1;31mRUN: ansible ${module}[0;0m"
-            ( cd ansible && ansible-playbook ${module}.yml -i inventory -v )
+    for playbook in ${PLAYBOOKS}; do
+        if [ -f ansible/${playbook}.yml ]; then
+            echo "[1;31mRUN: ansible ${playbook}[0;0m"
+            ( cd ansible && ansible-playbook ${playbook}.yml -i inventory -v )
         fi
     done
 fi
